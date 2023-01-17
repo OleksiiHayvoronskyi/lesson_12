@@ -36,6 +36,7 @@ def get_thread():                         # кількість потоків (m
 
 # Функція для порівння швидкості обчислень.
 def get_compare():
+    # duration_1: ProcessPoolExecutor, duration_2: ThreadPoolExecutor
     if duration_1 < duration_2:
         print('ProcessPoolExecutor is faster!')
         print('The process was executed in', duration_1, 'sec.')
@@ -52,7 +53,7 @@ if __name__ == '__main__':
     start_time = time.time()
     get_process()
     duration_1 = time.time() - start_time
-    print(f"Duration of execute = {duration_1} sec.")
+    print(f"Duration of computation = {duration_1} sec.")
     print("=====" * 10)
 
     # ThreadPoolExecutor
@@ -60,7 +61,7 @@ if __name__ == '__main__':
     start_time = time.time()
     get_thread()
     duration_2 = time.time() - start_time
-    print(f"Duration of execute = {duration_2} sec.")
+    print(f"Duration of computation = {duration_2} sec.")
 
     # Викликає функцію порівння.
     print("-----" * 10)

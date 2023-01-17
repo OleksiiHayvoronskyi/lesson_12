@@ -35,10 +35,12 @@ def thread():
 
 # Функція для порівння швидкості обчислень.
 def compare():
-    if duration < duration:
+    if duration_1 < duration_2:
         print('ProcessPoolExecutor is faster!')
+        print('Process was executed within', duration_1)
     else:
         print('ThreadPoolExecutor is faster!')
+        print('Process was executed within', duration_2)
 
 
 # Запускаю програму.
@@ -48,17 +50,18 @@ if __name__ == '__main__':
     print("Calculating of factorial with ProcessPoolExecutor: ")
     start_time = time.time()
     process()
-    duration = time.time() - start_time
-    print(f"Duration of execute = {duration}")
+    duration_1 = time.time() - start_time
+    print(f"Duration of execute = {duration_1}")
     print("=====" * 10)
 
     # ThreadPoolExecutor
     print("Calculating of factorial with ThreadPoolExecutor: ")
     start_time = time.time()
     thread()
-    duration = time.time() - start_time
-    print(f"Duration of execute = {duration}")
+    duration_2 = time.time() - start_time
+    print(f"Duration of execute = {duration_2}")
 
     # Викликає функцію порівння.
-    print('\nWhat is faster: ProcessPoolExecutor vs ThreadPoolExecutor?')
+    print("-----" * 10)
+    print('What is faster: ProcessPoolExecutor vs ThreadPoolExecutor?')
     compare()

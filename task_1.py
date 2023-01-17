@@ -8,6 +8,7 @@ import concurrent.futures
 import time
 
 
+# Числа для обчисленя факторіалу.
 NUMBERS = [5, 10, 15, 20, 991]
 
 
@@ -20,27 +21,27 @@ def factorial(x):
 
 
 # Створюю ProcessPoolExecutor для обчислення факторіалу.
-def process():
-    with concurrent.futures.ProcessPoolExecutor(max_workers=None) as executor:
+def get_process():                        # кількість потоків (max_workers=10)
+    with concurrent.futures.ProcessPoolExecutor(max_workers=10) as executor:
         for number, result in zip(NUMBERS, executor.map(factorial, NUMBERS)):
             print("%d is factorial: %s" % (number, result))
 
 
 # Створюю ThreadPoolExecutor для обчислення факторіалу.
-def thread():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=None) as executor:
+def get_thread():                         # кількість потоків (max_workers=10)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         for number, result in zip(NUMBERS, executor.map(factorial, NUMBERS)):
             print("%d is factorial: %s" % (number, result))
 
 
 # Функція для порівння швидкості обчислень.
-def compare():
+def get_compare():
     if duration_1 < duration_2:
         print('ProcessPoolExecutor is faster!')
-        print('Process was executed within', duration_1)
+        print('The process was executed in', duration_1, 'sec.')
     else:
         print('ThreadPoolExecutor is faster!')
-        print('Process was executed within', duration_2)
+        print('The process was executed in', duration_2, 'sec.')
 
 
 # Запускаю програму.
@@ -49,19 +50,19 @@ if __name__ == '__main__':
     print('--- Task 1 ---')
     print("Calculating of factorial with ProcessPoolExecutor: ")
     start_time = time.time()
-    process()
+    get_process()
     duration_1 = time.time() - start_time
-    print(f"Duration of execute = {duration_1}")
+    print(f"Duration of execute = {duration_1} sec.")
     print("=====" * 10)
 
     # ThreadPoolExecutor
     print("Calculating of factorial with ThreadPoolExecutor: ")
     start_time = time.time()
-    thread()
+    get_thread()
     duration_2 = time.time() - start_time
-    print(f"Duration of execute = {duration_2}")
+    print(f"Duration of execute = {duration_2} sec.")
 
     # Викликає функцію порівння.
     print("-----" * 10)
     print('What is faster: ProcessPoolExecutor vs ThreadPoolExecutor?')
-    compare()
+    get_compare()

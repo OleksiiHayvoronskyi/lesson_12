@@ -3,25 +3,45 @@
 # функції: додаваня, віднімання, множення - з використанням користувацьких
 # функцій, які працюють в асинхронному режимі.
 
-import asyncio, socket
+import asyncio
 
 print('--- Task 2. Server ---')
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind(('localhost', 8888))
-sock.listen(5)
-sock.setblocking(False)
 
-while True:
-    try:
-        client, addr = sock.accept()
-    except socket.error:
-        print('no client')
-    except KeyboardInterrupt:
-        break
-    else:
-        client.setblocking(True)
-        result = client.recv(1024)
-        client.close()
-        print('Message', result.decode('utf-8'))
-        print(sum(result))
+# СЕРВЕР.
+class EchoServerProtocol(asyncio.Protocol):
+    def __init__(self):
+        self.transport = None
+        print("I'm server:))")
+
+    # Створюю з’єднання
+    def connection_made(self, transport):
+        address = transport.get_extra_info('peername')
+
+        print(f'Connection from {address}')
+        self.transport = transport
+
+    def data_received(self, data):
+        message = data.decode()
+
+        print(f'It was received: {message}')
+
+        print(f'It was sent: {message}')
+        self.transport.write(data)
+
+        print('Close the client socket.')
+        print("---------------------------")
+        self.transport.close()
+
+
+# Створюю цикл подій, що буде чекати нових з’єднань.
+async def main():
+    loop = asyncio.get_running_loop()
+    server = await loop.create_server(
+        lambda: EchoServerProtocol(),
+        '127.0.0.1', 8888)
+    async with server:
+        await server.serve_forever()
+
+asyncio.run(main())
+
